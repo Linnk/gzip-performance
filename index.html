@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>GZIP Size / Compression</title>
+</head>
+<body>
+
+	<div id="container" style="min-width: 310px; height: 600px; margin: 2em auto 0 auto"></div>
+
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/modules/exporting.js"></script>
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+	<script type="text/javascript">
+	jQuery(function() {
+		jQuery.ajax({
+			url: '/stats.txt',
+			context: document.body
+		}).done(function(data) {
+			var lines = data.split('\n');
+			var uncompressed = [];
+			var compressed = [];
+			var time = [];
+			for (var i = 1; i < lines.length && i < 2000; i++)
+			{
+				var values = lines[i].split(',');
+
+				uncompressed.push(parseFloat(values[0]));
+				compressed.push(parseFloat(values[1]));
+				time.push(parseFloat(values[2]));
+			}
+			console.log(uncompressed);
+
+			Highcharts.chart('container', {
+				chart: {
+					type: 'area'
+				},
+				title: {
+					text: 'GZIP Size / Compression'
+				},
+				subtitle: {
+					text: 'Benefits of using GZIP in a web server by size of response.'
+				},
+				xAxis: {
+					tickInterval: 1
+				},
+				yAxis: [{
+					title: {
+						text: 'Bytes'
+					},
+					labels: {
+						formatter: function () {
+							return this.value / 1000 + 'k';
+						}
+					}
+				}, {
+					title: {
+						text: 'Time'
+					},
+					labels: {
+						formatter: function () {
+							return this.value + ' seconds';
+						}
+					},
+					opposite: true
+				}],
+				tooltip: {
+					shared: true,
+					crosshairs: true
+				},
+				plotOptions: {
+					area: {
+						marker: {
+							enabled: false,
+							symbol: false,
+							radius: 0,
+						}
+					}
+				},
+				series: [{
+					name: 'Uncompressed',
+					yAxis: 0,
+					data: uncompressed
+				}, {
+					name: 'Compressed',
+					yAxis: 0,
+					data: compressed
+				}, {
+					name: 'Time',
+					yAxis: 1,
+					data: time
+				}]
+			});
+		});
+	});
+	</script>
+</body>
+</html>
