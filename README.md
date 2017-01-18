@@ -24,9 +24,11 @@ I wrote another script `zip-responses.php` that scans the html-responses/ folder
 
 **4. Reading the results**
 
-Finally, open index.html. You will need a local web server, because the data is requested using AJAX. As it becomes evident with my results `gzip-performance.jpg`, the irreal small files are worthless of compression.
+Finally, open index.html. You will need a local web server, because the data is requested using AJAX. As it becomes evident with my results [gzip-performance.jpg](https://github.com/Linnk/gzip-performance/blob/master/gzip-performance.jpg), the irreal small files are worthless of compression.
 
-Some other observations:
+![gzip-performance](https://raw.githubusercontent.com/Linnk/gzip-performance/master/gzip-performance.jpg)
+
+Some observations:
 
 * Less than 200 bytes gzip can even make the file bigger.
 * Less than 2,000 bytes takes half a second. Not worth it.
